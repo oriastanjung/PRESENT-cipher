@@ -79,6 +79,7 @@ function encryption(plainteks, rounds){
 }
 
 const inputHex = konversiStringKeHeksadesimal("0000000000000000") // 64 bit atau 8 karakter atau 16 heksa
+// const inputHex = konversiStringKeHeksadesimal("49544b4552454e375f") // 64 bit atau 8 karakter atau 16 heksa (ITKEREN7_)
 const cipherteks = encryption(inputHex, 32)
 console.log("\ncipherteks >>> ", cipherteks)
 
