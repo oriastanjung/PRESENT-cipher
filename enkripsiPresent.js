@@ -33,8 +33,18 @@ function addRoundKey(stateHex, roundKeyHex) {
     // Melakukan XOR antara state dan roundKey
     let result = state ^ roundKey;
 
-    // Mengembalikan hasil XOR dalam bentuk heksadesimal
-    return result.toString(16).padStart(16, '0');
+    // Mengonversi hasil XOR ke dalam string heksadesimal
+    let resultHex = result.toString(16);
+
+    // Memastikan panjang string tetap 16 karakter dengan padding leading zero jika diperlukan
+    if (resultHex.length > 16) {
+        resultHex = resultHex.substring(resultHex.length - 16);
+    } else {
+        resultHex = resultHex.padStart(16, '0');
+    }
+
+    // Mengembalikan hasil
+    return resultHex;
 }
 
 // Fungsi S-box untuk enkripsi
@@ -58,14 +68,14 @@ function pLayer(state) {
 
 
 function encryption(plainteks, rounds){
-    let cipherteks = ""
+    let cipherteks = plainteks
     for(let i = 0; i < rounds; i++){
         // addRoundKey plainteks heksadesimal dengan roundkeys ke i heksadesimal
         // Dapatkan kunci putaran ke-i dari roundKeys
         let roundKeyHex = roundKeys[i];
 
         // Lakukan operasi XOR antara cipherteks dan kunci putaran
-        cipherteks = addRoundKey(plainteks, roundKeyHex);
+        cipherteks = addRoundKey(cipherteks, roundKeyHex);
 
         // SBOX LAYER
          cipherteks = sBoxLayer(BigInt('0x' + cipherteks)).toString(16).padStart(16, '0');
@@ -78,8 +88,8 @@ function encryption(plainteks, rounds){
     return cipherteks
 }
 
-const inputHex = konversiStringKeHeksadesimal("0000000000000000") // 64 bit atau 8 karakter atau 16 heksa
-// const inputHex = konversiStringKeHeksadesimal("49544b4552454e375f") // 64 bit atau 8 karakter atau 16 heksa (ITKEREN7_)
+// const inputHex = konversiStringKeHeksadesimal("0000000000000000") // 64 bit atau 8 karakter atau 16 heksa
+const inputHex = konversiStringKeHeksadesimal("49544b4552454e37") // 64 bit atau 8 karakter atau 16 heksa (ITKEREN7_)
 const cipherteks = encryption(inputHex, 32)
 console.log("\ncipherteks >>> ", cipherteks)
 
