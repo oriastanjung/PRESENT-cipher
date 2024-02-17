@@ -27,7 +27,7 @@ function generateRoundKey(inputKeyHex, rounds) {
     let roundKeys = [];
     let key = BigInt('0x' + inputKeyHex);
     for (let i = 1n; i <= BigInt(rounds+1); i++) { // Ubah ke BigInt
-        roundKeys.push(key.toString(16).padStart(20, '0'));
+        roundKeys.push((key & ((1n << 80n) - 1n)).toString(16).padStart(20, '0'));
 
         // 1. Shift Left
         key = shiftLeft(key, 61);
@@ -44,14 +44,14 @@ function generateRoundKey(inputKeyHex, rounds) {
     return roundKeys;
 }
 
-
 // const inputHex = konversiStringKeHeksadesimal("00000000000000000000"); // 80 bit awal ini yg CONTOHIN YOUTUBE
 const inputHex = konversiStringKeHeksadesimal("4654544b554d52414837"); // 80 bit awal ini yg FTTKUMRAH7
 const MasterRoundKeys = generateRoundKey(inputHex, 32); // Contoh: 10 putaran
-const roundKeys = MasterRoundKeys.map((item, idx) => item.slice(4)); // Menghapus 4 karakter pertama
+
+const roundKeys = MasterRoundKeys.map((item, idx) => item.slice(4));
 
 for (let i = 0; i < roundKeys.length; i++){
     console.log("RoundKey-", i, " >> ", roundKeys[i])
 }
 
-module.exports = {roundKeys,konversiStringKeHeksadesimal}
+module.exports = {roundKeys, konversiStringKeHeksadesimal}
