@@ -7,7 +7,7 @@ function konversiStringKeHeksadesimal(string) {
     // Konversi string ke bentuk heksadesimal
     var hex = BigInt('0x' + str); // Menggunakan BigInt
     // Mengonversi kembali ke heksadesimal dengan panjang tepat 20 karakter (80 bit)
-    var paddedHex = hex.toString(16).padStart(20, '0');
+    var paddedHex = hex.toString(16).padStart(16, '0');
     return paddedHex;
 }
 
